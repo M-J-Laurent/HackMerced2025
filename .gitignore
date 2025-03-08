@@ -1,5 +1,6 @@
 *.csv
 *.xlsx
+*.dat
 
 # dependencies
 /node_modules
