@@ -8,6 +8,19 @@ pathEZ = f".\Data\YearlyReports\Raw\{year}eofinextractez.dat"
 db990=pd.read_csv(path990, delimiter="\s+")
 dbEZ=pd.read_csv(pathEZ, delimiter="\s+")
 
+if "ein" in db990.columns:
+    db990 = db990.rename(columns={"ein": f"EIN"})
+else:
+    print("error")
+    exit()
+
+
+if "ein" in dbEZ.columns:
+    dbEZ = dbEZ.rename(columns={"ein": f"EIN"})
+else:
+    print("Error")
+    exit()
+
 columns_to_keep_990=["EIN","totrevenue"]
 columns_to_keep_EZ=["EIN","totrevnue"]
 
@@ -16,6 +29,10 @@ cleanDataEZ = dbEZ[columns_to_keep_EZ]
 
 cleanData990 = cleanData990.rename(columns={"totrevenue": f"totrevenue_{year}_990"})
 cleanDataEZ = cleanDataEZ.rename(columns={"totrevnue": f"totrevenue_{year}_ez"})
+
+# cleanData990.to_csv(f"./Data/YearlyReports/intermediate/{year}_990.csv", index=False)
+# cleanDataEZ.to_csv(f"./Data/YearlyReports/intermediate/{year}_EZ.csv", index=False)
+
 
 new_rows = cleanDataEZ[~cleanDataEZ["EIN"].isin(cleanData990["EIN"])]
 
