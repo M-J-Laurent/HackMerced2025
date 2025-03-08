@@ -1,5 +1,7 @@
 import pandas as pd
 
+# must run script in project root directory
+
 cleanedMission = pd.read_csv("./Data/Mission/Cleaned/cleaned_Data.csv")
 cleanedRevenue = pd.read_csv("./Data/YearlyReports/Cleaned/16_990.csv")
 

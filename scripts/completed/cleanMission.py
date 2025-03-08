@@ -1,4 +1,7 @@
 import pandas as pd
+
+# must run script in project root directory
+
 db=pd.read_csv("test.csv")
 columns_to_keep=['EIN','NAME','F9_03_PZ_MISSION']
 cleanData=db[columns_to_keep]
