@@ -1,9 +1,8 @@
 import pandas as pd
 
-db=pd.read_csv(".\Data\Mission\Cleaned\cleaned_Data.csv")
-db2=pd.read_csv("./Data/YearlyReports/Cleaned/23.csv")
+cleanedMission = pd.read_csv("./Data/Mission/Cleaned/cleaned_Data.csv")
+cleanedRevenue = pd.read_csv("./Data/YearlyReports/Cleaned/16_990.csv")
 
-columns_check=['ein']
 
-MergedData = db.merge(db2, left_on=['EIN'],right_on=["ein"], how="left")
-MergedData.to_csv("Data\Cleaned\merged_Data.csv", index=False)
+MergedData = cleanedMission.merge(cleanedRevenue, left_on=['EIN'],right_on=["EIN"], how="left")
+MergedData.to_csv("Data\FinalCleaned\merged_Data_16.csv", index=False)
