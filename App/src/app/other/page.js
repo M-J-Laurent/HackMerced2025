@@ -2,7 +2,7 @@
 
 import { GoogleGenerativeAI } from "@google/generative-ai";
  
-import "./globals.css"
+import ".././globals.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -56,17 +56,12 @@ export default function Home() {
 
   return (
     <>
-      <div className="mb-10">
-        <h1 className="text-center text-3xl font-bold py-5 bg-white"
-          style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgb(234, 221, 220)"}}
-        >
-          Lorem Ipsum Title</h1>
-
-          <img className="h-[60dvh] w-full object-cover absolute z-[-10]" src="https://media.licdn.com/dms/image/v2/C4D12AQGhNtX_9mAdbg/article-cover_image-shrink_720_1280/article-cover_image-shrink_720_1280/0/1581786335388?e=2147483647&v=beta&t=ZF2-Nfcl5rNYfpMGJMINx1jBETlsEXDc6oJf0hyqqZw"></img>
+      <div className="pb-10 bg-black">
+        <h1 className="text-center text-3xl font-bold py-10 top-0 bg-black text-white">Lorem Ipsum Title</h1>
           
-          <div className="flex h-[60dvh] items-center justify-center  flex-wrap">
+          <div className="flex items-center justify-center  flex-wrap">
             <div>
-              <div className="mx-10  my-10 w-[2xl] flex flex-column justify-center items-center h-[200px] bg-[rgba(255,255,255,0.8)] px-5 rounded-md">
+              <div className="mx-10 w-[2xl] flex flex-column justify-center items-center h-[200px] px-5 rounded-md">
                   <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="w-2xl space-y-6">
                       <FormField
@@ -74,7 +69,7 @@ export default function Home() {
                         name="text"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel><strong>What kind of Charity would you start?</strong></FormLabel>
+                            <FormLabel><strong className="text-white">What kind of Charity would you start?</strong></FormLabel>
                             <FormControl>
                               <Textarea
                                 placeholder="Tell us a little bit about the charity"
@@ -90,14 +85,14 @@ export default function Home() {
                           </FormItem>
                         )}
                       />
-                      <Button type="submit">Submit</Button>
+                      <Button type="submit" className="text-black bg-white cursor-pointer hover:bg-white hover:px-10">Submit</Button>
                     </form>
                   </Form>
               </div>
             </div>
 
-            <div className="h-[200px] overflow-scroll p-[20px] bg-white rounded-md"
-                style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgb(234, 221, 220)"}}
+            <div className="h-[200px] overflow-scroll p-[20px] rounded-md text-white"
+                style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgba(234, 221, 220, 0.81)"}}
             >
                 <ul>
                   <li>Tech Innovations Inc. - $5.8 Billion</li>
@@ -126,11 +121,11 @@ export default function Home() {
                   
           <div className="w-full flex justify-center mt-10">
             <div className="flex flex-wrap justify-center">
-                <div className="mx-10 px-10 text-lg rounded-md mb-10"
-                    style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgb(234, 221, 220)"}}
+                <div className="mx-10 px-10 text-lg rounded-md pb-10 text-white"
+                    style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgba(216, 207, 207, 0.86)"}}
                     >
                     <h1 className="text-xl font-bold mb-[15px] pt-[15px] pb-[5px] text-center"
-                      style={{borderBottom: "2px solid rgba(60, 64, 67, 0.25)"}}
+                      style={{borderBottom: "2px solid rgba(181, 186, 190, 0.25)"}}
                     >
                       Key words</h1>
                     <ul>
