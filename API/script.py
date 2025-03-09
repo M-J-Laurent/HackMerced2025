@@ -1,19 +1,22 @@
 import sys
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # from JsonParser import GetSemanticsFromJson
+input_data = sys.stdin.read()
+# print("hi")
 
 # grab the key words
-Json = {
-    "keywords":[
-        "poor",
-        "medical",
-        "ROOts",
-        "word4"
-    ]
-}
+Json = json.loads(input_data)
+# Json = {
+#     "keywords":[
+#         "poor",
+#         "medical",
+#         "ROOts",
+#         "word4"
+#     ]
+# }
 
 def AlgoOnPandas(df):
     datapoints=[]
@@ -39,6 +42,11 @@ def GetSemanticsFromJson(JsonData):
 
 # linear recursion
 dataPoints = AlgoOnPandas(GetSemanticsFromJson(Json))
+
+
+
+
+
 # print(dataPoints)
 # x_values = [pair[0] for pair in dataPoints["data"]]
 # y_values = [pair[1] for pair in dataPoints["data"]]
@@ -63,4 +71,6 @@ dataPoints = AlgoOnPandas(GetSemanticsFromJson(Json))
 
 # print(x_values)
 # print(y_values)
+# print(input_data)
+# print(f'{Json} @ ')
 print(dataPoints)

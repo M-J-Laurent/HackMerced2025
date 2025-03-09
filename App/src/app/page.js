@@ -1,7 +1,10 @@
 "use client"
 
+import { useState, useEffect, use } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
- 
+import { Bar, BarChart } from "recharts"
+import { ChartConfig, ChartContainer } from "@/components/ui/chart"
+import axios from 'axios';
 import "./globals.css"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -38,24 +41,59 @@ export default function Home() {
     // const form = useForm<z.infer<typeof FormSchema>>({ resolver: zodResolver(FormSchema), })
 
   const key = process.env.NEXT_PUBLIC_API_KEY;
-  // const genAI = new GoogleGenerativeAI(key);
-  // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
+  const genAI = new GoogleGenerativeAI(key);
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
   const prePrompt = 'Only respond with json formatted keywords (use the format - {"keywords":["your-words-here"]}) that you would expect be in a mission statement of a related charity each word should be specific to the type of charity derived from the following passage: ';
- 
+  let preResult = ''
+  const [aiResponse, setAiResponse] = useState(null); 
+  const [pResult, setPResult] = useState(null);
+  // const [preResult, setPreResult] = useState(null); 
+
+  
   async function onSubmit(data) {
       prompt = prePrompt + data.text;
-      console.log(prompt);
 
       try {
-          let a = '```json {"keywords": ["Christmas", "holiday", "season", "joy", "giving", "celebration", "gifts", "families", "children", "community", "support", "hope", "traditions", "festive", "charity", "needs", "vulnerable"]}```'
-          // const result = await model.generateContent(prompt);
-          console.log(result.response.text().substring(8,result.response.text().length-4));
+          preResult = await model.generateContent(prompt);
+          
       } catch (error) {
-        alert("Error generating AI response:", error);
-        console.log("Error generating AI response:", error);
+          alert("Error generating AI response:", error);
+          console.log("Error generating AI response:", error);
       }
+
+      axios
+        .post("http://localhost:4000/api", JSON.parse(preResult.response.text().substring(8, preResult.response.text().length - 4)))
+        .then((response) => setAiResponse(response))
+        .catch((error) => console.error(error));
   }
+
+  const chartConfig = {
+    desktop: {
+      label: "Desktop",
+      color: "#2563eb",
+    },
+  }
+
+  let parsedArray1
+  let parsedArray2
+  let half1;
+  let half2;
+  let chartData = [];
+  if (aiResponse) {
+    const arrayStr = aiResponse.data.substring(8, aiResponse.data.length - 2)
+    console.log(arrayStr)
+
+    const validJsonString1 = arrayStr.replace(/'/g, '"');
+    parsedArray1 = JSON.parse(validJsonString1);
+    chartData = parsedArray1.map(item => ({
+        year: parseInt(item[0]), 
+        desktop: parseFloat(item[1]) 
+    }));
+  }
+
+
+  const cd = chartData
+  // console.log(ch)
 
   return (
     <>
@@ -77,7 +115,7 @@ export default function Home() {
                         name="text"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel><strong>What kind of Charity would you start?</strong></FormLabel>
+                            <FormLabel><strong>What kind of Charity are you interested in?</strong></FormLabel>
                             <FormControl>
                               <Textarea
                                 placeholder="Tell us a little bit about the charity"
@@ -128,25 +166,34 @@ export default function Home() {
           </div>
                   
           <div className="w-full flex justify-center mt-10">
-            <div className="flex flex-wrap justify-center">
-                <div className="mx-10 px-10 text-lg rounded-md mb-10"
+            <div className="flex px-[150px] justify-center my-10">
+                <div className="mx-10 px-10 text-lg rounded-md mb-10 w-100"
                     style={{boxShadow: "0px 2px 8px 0px rgba(60, 64, 67, 0.25)", border: "1px solid rgb(234, 221, 220)"}}
                     >
-                    <h1 className="text-xl font-bold mb-[15px] pt-[15px] pb-[5px] text-center"
+                    <h1 className="text-xl font-bold pt-[15px] text-center"
                       style={{borderBottom: "2px solid rgba(60, 64, 67, 0.25)"}}
                     >
-                      Key words</h1>
-                    <ul>
-                      <li>Canser Research</li>
+                      Legend</h1>
+                    <p className="py-5">This is the general predicted trend line of other popular charities similar to the description you provided</p>
+                    {/* <ul> */}
+                      {/* <li>Canser Research</li>
                       <li>Water conservation</li>
-                      <li>Green Energy</li>
-                    </ul>
+                      <li>Green Energy</li> */}
+                    {/* </ul> */}
                 </div>
-                <img className="bg-slate-100" src="https://www.jaspersoft.com/content/dam/jaspersoft/images/graphics/infographics/line-chart-example.svg" ></img>
+
+                <ChartContainer config={chartConfig} className="min-h-[200px] mb-[15px] w-full pb-10">
+                  <BarChart accessibilityLayer data={cd}>
+                    <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+                  </BarChart>
+                </ChartContainer>
             </div>
           </div>
           
       </div>
+
+      
     </>
   );
 }
+
