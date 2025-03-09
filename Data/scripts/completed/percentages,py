@@ -1,0 +1,21 @@
+import pandas as pd
+
+year1=int(input("Input start year: "))
+year2=int(input("Input end year: "))
+
+#cp Data\FinalCleaned\merged_data.csv Data\Percentages\percentages.csv
+
+    
+
+year1=str(year1+1)
+path="Data\Percentages\percentages.csv"
+df=pd.read_csv(path)
+for year in range(int(year1),int(year2)+1):
+    
+    previousYear=str(int(year)-1)
+    df[f"percent_{year}-{previousYear}"] = ((df[f'totRevenue_{year}'] - df[f'totRevenue_{previousYear}']) / df[f'totRevenue_{previousYear}'])*100
+
+for revenue in range(int(year1)-1,int(year2)+1):
+    df=df.drop(f"totRevenue_{revenue}",axis=1)
+
+df.to_csv("Data\Percentages\percentages.csv", index=False)
