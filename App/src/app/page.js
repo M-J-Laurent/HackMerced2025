@@ -40,18 +40,21 @@ export default function Home() {
   const key = process.env.NEXT_PUBLIC_API_KEY;
   // const genAI = new GoogleGenerativeAI(key);
   // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  const prePrompt = 'Only respond with json formatted keywords (use the format - {"keywords":["your-words-here"]}) that you would expect be in a mission statement of a related charity each word should be specific to the type of charity derived from the following passage: ';
  
   async function onSubmit(data) {
-      alert(data.text);
-      prompt = data.text;
+      prompt = prePrompt + data.text;
+      console.log(prompt);
 
-      // try {
-      //   const result = await model.generateContent(prompt);
-      //   alert(result.response.text());
-      // } catch (error) {
-      //   alert("Error generating AI response:", error);
-      //   console.log("Error generating AI response:", error);
-      // }
+      try {
+          let a = '```json {"keywords": ["Christmas", "holiday", "season", "joy", "giving", "celebration", "gifts", "families", "children", "community", "support", "hope", "traditions", "festive", "charity", "needs", "vulnerable"]}```'
+          // const result = await model.generateContent(prompt);
+          console.log(result.response.text().substring(8,result.response.text().length-4));
+      } catch (error) {
+        alert("Error generating AI response:", error);
+        console.log("Error generating AI response:", error);
+      }
   }
 
   return (
