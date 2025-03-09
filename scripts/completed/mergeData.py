@@ -7,7 +7,6 @@ import modin.pandas as pd
 
 # import pandas as pd
 
-import shutil
 import traceback
 
 # must run script in project root directory
