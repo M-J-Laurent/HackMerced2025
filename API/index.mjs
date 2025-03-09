@@ -6,9 +6,11 @@ const app = express();
 app.use(express.json())
 const PORT = 4000;
 
+// graph data
+let points = ''
+
 // post route
 app.post('/api', (request, response) => {
-    console.log(request.body);
     const { body } = request;
 
     // set up child process
@@ -20,7 +22,7 @@ app.post('/api', (request, response) => {
 
     // print the output of python script
     pythonScript.stdout.on('data', (data) => {
-        console.log(data.toString());
+        points = data.toString();
     });
 
     // if error
@@ -31,10 +33,9 @@ app.post('/api', (request, response) => {
     //  close the child process
     pythonScript.on('close', (code) => {
         console.log(`Python script finished with code ${code}`);
+        return response.status(200).json(points)
     });
-
-
-    return response.status(200).send("Hi there, I got your post request!")
+    // return response.status(200).json(points)
 })
 
 // run the server
